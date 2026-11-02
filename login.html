@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MyFinance — Sign in</title>
+  <!-- Tailwind Compiled CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="min-h-screen flex items-center justify-center px-4 py-6 relative overflow-y-auto">
+
+  <!-- Background Glows -->
+  <div class="pointer-events-none fixed inset-0 -z-10">
+    <div class="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-accent/10 blur-3xl"></div>
+    <div class="absolute -bottom-40 -left-40 w-[600px] h-[600px] rounded-full bg-accent-2/10 blur-3xl"></div>
+  </div>
+
+  <div class="w-full max-w-sm my-auto">
+
+    <!-- Brand -->
+    <div class="flex flex-col items-center mb-5">
+      <div class="w-12 h-12 rounded-2xl bg-accent flex items-center justify-center shadow-glow mb-2">
+        <i data-lucide="wallet" class="w-6 h-6 text-[#06221a]"></i>
+      </div>
+      <h1 class="text-xl font-extrabold text-txt-primary">MyFinance</h1>
+      <p class="text-[11px] text-txt-secondary mt-0.5">Track • Plan • Save</p>
+    </div>
+
+    <div class="card p-5">
+
+      <!-- Error / Success banner -->
+      <div id="auth-msg" class="hidden mb-3 px-3 py-2 rounded-lg text-xs"></div>
+
+      <!-- Google Sign In -->
+      <button id="btn-google"
+              class="w-full h-10 rounded-xl bg-[#F4F7FB] hover:bg-white text-[#080F1C] font-semibold text-sm transition flex items-center justify-center gap-2 mb-4">
+        <svg width="16" height="16" viewBox="0 0 48 48" aria-hidden="true">
+          <path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.6-.4-3.9z"/>
+          <path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34.1 6.1 29.3 4 24 4c-7.7 0-14.4 4.4-17.7 10.7z"/>
+          <path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2c-2 1.5-4.5 2.4-7.2 2.4-5.3 0-9.7-3.4-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/>
+          <path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.3-2.2 4.2-4.1 5.6l6.2 5.2C36.9 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/>
+        </svg>
+        Continue with Google
+      </button>
+
+      <!-- Divider -->
+      <div class="flex items-center gap-3 mb-4">
+        <div class="flex-1 h-px bg-brd"></div>
+        <span class="text-[10px] text-txt-secondary uppercase tracking-wider">or use email</span>
+        <div class="flex-1 h-px bg-brd"></div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="grid grid-cols-2 gap-1 p-1 rounded-lg bg-bg-secondary border border-brd mb-4">
+        <button id="tab-signin" class="py-1.5 rounded-md text-xs font-medium text-[#06221a] bg-accent transition">Sign In</button>
+        <button id="tab-signup" class="py-1.5 rounded-md text-xs font-medium text-txt-secondary hover:text-txt-primary transition">Sign Up</button>
+      </div>
+
+      <!-- Sign In form (Includes Magic Link) -->
+      <form id="form-signin" class="space-y-3">
+        <div>
+          <label class="block text-[11px] text-txt-secondary mb-1">Email</label>
+          <input id="si-email" type="email" required autocomplete="email"
+                 class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:border-accent"
+                 placeholder="you@example.com" />
+        </div>
+        <div>
+          <label class="block text-[11px] text-txt-secondary mb-1">Password</label>
+          <input id="si-password" type="password" required autocomplete="current-password"
+                 class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:border-accent"
+                 placeholder="••••••••" />
+        </div>
+        
+        <button type="submit"
+                class="w-full h-10 mt-2 rounded-xl bg-accent hover:bg-accent-hover text-[#06221a] font-semibold text-sm transition flex items-center justify-center gap-2">
+          <span>Sign In</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+
+        <!-- Magic Link Button -->
+        <div class="relative flex py-1 items-center">
+          <div class="flex-grow border-t border-brd"></div>
+          <span class="flex-shrink-0 mx-2 text-[10px] text-txt-secondary">or</span>
+          <div class="flex-grow border-t border-brd"></div>
+        </div>
+
+        <button type="button" id="btn-magic-link"
+                class="w-full h-10 rounded-xl bg-bg-elevated border border-brd hover:border-accent text-txt-primary font-medium text-xs transition flex items-center justify-center gap-2">
+          <i data-lucide="mail" class="w-3.5 h-3.5 text-accent"></i>
+          <span>Send Magic Link to Email</span>
+        </button>
+      </form>
+
+      <!-- Sign Up form -->
+      <form id="form-signup" class="hidden space-y-3">
+        <div>
+          <label class="block text-[11px] text-txt-secondary mb-1">Full Name</label>
+          <input id="su-name" type="text" required autocomplete="name"
+                 class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:border-accent"
+                 placeholder="Vrushabh" />
+        </div>
+        <div>
+          <label class="block text-[11px] text-txt-secondary mb-1">Email</label>
+          <input id="su-email" type="email" required autocomplete="email"
+                 class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:border-accent"
+                 placeholder="you@example.com" />
+        </div>
+        <div>
+          <label class="block text-[11px] text-txt-secondary mb-1">Password <span class="opacity-60">(min 6 chars)</span></label>
+          <input id="su-password" type="password" required minlength="6" autocomplete="new-password"
+                 class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary placeholder:text-txt-secondary/50 focus:outline-none focus:border-accent"
+                 placeholder="••••••••" />
+        </div>
+        <button type="submit"
+                class="w-full h-10 mt-2 rounded-xl bg-accent hover:bg-accent-hover text-[#06221a] font-semibold text-sm transition flex items-center justify-center gap-2">
+          <span>Create Account</span>
+          <i data-lucide="user-plus" class="w-4 h-4"></i>
+        </button>
+      </form>
+
+    </div>
+
+    <p class="text-center text-[10px] text-txt-secondary mt-4">
+      Phase 2 — data stored in your private Supabase project
+    </p>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script type="module">
+    import { Auth } from './assets/js/auth.js';
+
+    const $ = s => document.querySelector(s);
+    const msg = $('#auth-msg');
+
+    const showMsg = (text, type = 'error') => {
+      msg.textContent = text;
+      msg.className = `mb-3 px-3 py-2 rounded-lg text-xs ${
+        type === 'success'
+          ? 'bg-income/10 border border-income/30 text-income'
+          : 'bg-expense/10 border border-expense/30 text-expense'
+      }`;
+      msg.classList.remove('hidden');
+    };
+
+    /* Catch OAuth errors */
+    const params = new URLSearchParams(location.search);
+    const err = params.get('error_description') || params.get('error');
+    if (err) showMsg(decodeURIComponent(err));
+
+    /* Google */
+    $('#btn-google').addEventListener('click', async () => {
+      const btn = $('#btn-google');
+      btn.disabled = true;
+      btn.classList.add('opacity-70');
+      try {
+        await Auth.signInWithGoogle();
+      } catch (e) {
+        showMsg(e.message || 'Google sign-in failed');
+        btn.disabled = false;
+        btn.classList.remove('opacity-70');
+      }
+    });
+
+    /* Tabs */
+    const tabSignin = $('#tab-signin');
+    const tabSignup = $('#tab-signup');
+    const formSignin = $('#form-signin');
+    const formSignup = $('#form-signup');
+
+    function activate(tab) {
+      const signin = tab === 'signin';
+      formSignin.classList.toggle('hidden', !signin);
+      formSignup.classList.toggle('hidden', signin);
+      tabSignin.className = signin
+        ? 'py-1.5 rounded-md text-xs font-medium text-[#06221a] bg-accent transition'
+        : 'py-1.5 rounded-md text-xs font-medium text-txt-secondary hover:text-txt-primary transition';
+      tabSignup.className = !signin
+        ? 'py-1.5 rounded-md text-xs font-medium text-[#06221a] bg-accent transition'
+        : 'py-1.5 rounded-md text-xs font-medium text-txt-secondary hover:text-txt-primary transition';
+      msg.classList.add('hidden');
+    }
+    tabSignin.addEventListener('click', () => activate('signin'));
+    tabSignup.addEventListener('click', () => activate('signup'));
+
+    /* Email Sign In */
+    formSignin.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = formSignin.querySelector('button[type=submit]');
+      btn.disabled = true;
+      try {
+        await Auth.signIn({
+          email: $('#si-email').value.trim(),
+          password: $('#si-password').value,
+        });
+        const redirect = new URLSearchParams(location.search).get('redirect');
+        location.replace(redirect || 'dashboard.html');
+      } catch (err) {
+        showMsg(err.message || 'Sign in failed');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    /* Email Sign Up */
+    formSignup.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = formSignup.querySelector('button[type=submit]');
+      btn.disabled = true;
+      try {
+        const data = await Auth.signUp({
+          email: $('#su-email').value.trim(),
+          password: $('#su-password').value,
+          fullName: $('#su-name').value.trim(),
+        });
+        if (data.session) {
+          location.replace('dashboard.html');
+        } else {
+          showMsg('Check your email to confirm your account, then sign in.', 'success');
+        }
+      } catch (err) {
+        showMsg(err.message || 'Sign up failed');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    /* Magic Link */
+    $('#btn-magic-link').addEventListener('click', async () => {
+      const email = $('#si-email').value.trim();
+      if (!email) {
+        showMsg('Please enter your email address first.');
+        $('#si-email').focus();
+        return;
+      }
+      
+      const btn = $('#btn-magic-link');
+      btn.disabled = true;
+      try {
+        await Auth.sendMagicLink(email);
+        showMsg('Magic link sent — check your inbox.', 'success');
+      } catch (err) {
+        showMsg(err.message || 'Could not send magic link');
+      } finally {
+        btn.disabled = false;
+      }
+    });
+
+    /* Check if already logged in */
+    Auth.getSession().then(s => { if (s) location.replace('dashboard.html'); });
+
+    lucide.createIcons();
+  </script>
+</body>
+</html>

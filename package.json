@@ -1,0 +1,14 @@
+{
+  "name": "myfinance",
+  "version": "1.0.0",
+  "private": true,
+  "description": "MyFinance — Personal Expense Tracker",
+  "scripts": {
+    "build": "tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --minify",
+    "dev": "tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --watch",
+    "serve": "npx serve . -l 3000"
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.1"
+  }
+}

@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MyFinance — Dashboard</title>
+  <!-- Tailwind Compiled CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <aside id="sidebar" class="sidebar hidden-mobile lg:!transform-none"></aside>
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+  <main class="lg:pl-[260px] min-h-screen pb-28 lg:pb-8">
+
+    <!-- Header -->
+    <header class="sticky top-0 z-20 bg-bg-primary/85 backdrop-blur border-b border-brd">
+      <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+
+        <div class="flex items-center gap-3 lg:hidden">
+          <button data-open-sidebar class="w-9 h-9 rounded-lg bg-bg-card border border-brd flex items-center justify-center">
+            <i data-lucide="menu" class="w-4 h-4 text-txt-primary"></i>
+          </button>
+          <div class="w-8 h-8 rounded-lg bg-accent flex items-center justify-center">
+            <i data-lucide="wallet" class="w-4 h-4 text-[#06221a]"></i>
+          </div>
+          <span class="font-bold text-txt-primary">MyFinance</span>
+        </div>
+
+        <div class="hidden lg:flex items-center gap-4">
+          <div>
+            <div id="greeting" class="text-xl font-bold text-txt-primary">Loading…</div>
+            <div class="text-xs text-txt-secondary">Here's your financial overview</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button class="hidden md:flex items-center gap-2 h-9 px-3 rounded-lg bg-bg-card border border-brd text-xs text-txt-primary">
+            <i data-lucide="calendar" class="w-3.5 h-3.5"></i>
+            This Month
+            <i data-lucide="chevron-down" class="w-3 h-3 text-txt-secondary"></i>
+          </button>
+          <button class="relative w-9 h-9 rounded-lg bg-bg-card border border-brd flex items-center justify-center">
+            <i data-lucide="bell" class="w-4 h-4 text-txt-primary"></i>
+          </button>
+          <button data-open-profile
+                  class="w-9 h-9 rounded-full bg-accent-2 hover:bg-accent-2/80 flex items-center justify-center text-txt-primary text-xs font-bold transition"
+                  aria-label="Edit profile">
+            <span data-avatar-initial>U</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="lg:hidden px-4 pb-3">
+        <div id="greeting-mobile" class="text-lg font-bold text-txt-primary">Loading…</div>
+        <div class="text-[11px] text-txt-secondary">Here's your financial overview</div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="px-4 sm:px-6 lg:px-8 py-6 max-w-[1600px] mx-auto space-y-6">
+
+      <!-- Summary Cards -->
+      <section class="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4">
+        <div class="card balance-card col-span-2 lg:col-span-1">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-txt-secondary">Total Balance</span>
+            <button class="text-txt-secondary hover:text-txt-primary">
+              <i data-lucide="eye" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div id="sum-balance" class="text-2xl sm:text-3xl font-bold text-txt-primary mt-2">₹0</div>
+          <div class="flex items-center gap-1 mt-2 text-xs text-income">
+            <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            <span>this month</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-xs text-txt-secondary">Income</span>
+              <div id="sum-income" class="text-lg sm:text-xl font-bold text-txt-primary mt-1">₹0</div>
+              <div class="flex items-center gap-1 mt-1 text-[11px] text-income">
+                <i data-lucide="arrow-down-left" class="w-3 h-3"></i>
+                <span>this month</span>
+              </div>
+            </div>
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center bg-income/15">
+              <i data-lucide="arrow-down-left" class="w-4 h-4 text-income"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-xs text-txt-secondary">Expenses</span>
+              <div id="sum-expenses" class="text-lg sm:text-xl font-bold text-txt-primary mt-1">₹0</div>
+              <div class="flex items-center gap-1 mt-1 text-[11px] text-expense">
+                <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                <span>this month</span>
+              </div>
+            </div>
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center bg-expense/15">
+              <i data-lucide="arrow-up-right" class="w-4 h-4 text-expense"></i>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-start justify-between">
+            <div>
+              <span class="text-xs text-txt-secondary">Savings</span>
+              <div id="sum-savings" class="text-lg sm:text-xl font-bold text-txt-primary mt-1">₹0</div>
+              <div class="flex items-center gap-1 mt-1 text-[11px] text-info">
+                <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+                <span>this month</span>
+              </div>
+            </div>
+            <div class="w-9 h-9 rounded-lg flex items-center justify-center bg-info/15">
+              <i data-lucide="piggy-bank" class="w-4 h-4 text-info"></i>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quick Actions -->
+      <section class="grid grid-cols-4 gap-2 sm:gap-3">
+        <a href="transactions.html?action=add&type=expense" class="quick-tile">
+          <span class="icon-box bg-expense/15"><i data-lucide="minus" class="w-4 h-4 text-expense"></i></span>
+          <span>Add Expense</span>
+        </a>
+        <a href="transactions.html?action=add&type=income" class="quick-tile">
+          <span class="icon-box bg-income/15"><i data-lucide="plus" class="w-4 h-4 text-income"></i></span>
+          <span>Add Income</span>
+        </a>
+        <button class="quick-tile" data-phase-toast="Scan Bill — later phase">
+          <span class="icon-box bg-accent-2/15"><i data-lucide="scan-line" class="w-4 h-4 text-accent-2"></i></span>
+          <span>Scan Bill</span>
+        </button>
+        <a href="reports.html" class="quick-tile">
+          <span class="icon-box bg-info/15"><i data-lucide="bar-chart-3" class="w-4 h-4 text-info"></i></span>
+          <span>View Report</span>
+        </a>
+      </section>
+
+      <!-- Charts Row -->
+      <section class="grid grid-cols-1 xl:grid-cols-5 gap-4">
+        <div class="card xl:col-span-2">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-semibold text-txt-primary">Expense Breakdown</h2>
+            <span class="text-[11px] text-txt-secondary">This Month</span>
+          </div>
+          <div class="relative mx-auto" style="height: 180px; max-width: 220px;">
+            <canvas id="expenseDonut"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
+              <div id="donut-total" class="text-lg font-bold text-txt-primary">₹0</div>
+              <div id="donut-label" class="text-[10px] text-txt-secondary">Total Expenses</div>
+            </div>
+          </div>
+          <div id="donut-legend" class="mt-4 space-y-2"></div>
+        </div>
+
+        <div class="card xl:col-span-3">
+          <div class="flex items-center justify-between mb-4">
+            <h2 class="text-sm font-semibold text-txt-primary">Income vs Expenses</h2>
+            <span class="text-[11px] text-txt-secondary">Phase 5 will show 6-month trend</span>
+          </div>
+          <div class="relative flex items-center justify-center text-center" style="height: 280px;">
+            <div class="text-xs text-txt-secondary">
+              <i data-lucide="bar-chart-3" class="w-8 h-8 mx-auto mb-2 opacity-40"></i>
+              Trend chart arrives in Phase 5.<br>
+              Current month is shown above.
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Recent Transactions & Budgets -->
+      <section class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-sm font-semibold text-txt-primary">Recent Transactions</h2>
+            <a href="transactions.html" class="text-[11px] text-accent hover:underline">View All</a>
+          </div>
+          <div id="recent-list"></div>
+        </div>
+
+        <div class="card">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-sm font-semibold text-txt-primary">Monthly Budget</h2>
+            <a href="budgets.html" class="text-[11px] text-accent hover:underline">Manage</a>
+          </div>
+          <div id="budget-list" class="divide-y divide-brd/60"></div>
+        </div>
+      </section>
+
+      <!-- NEW: Savings Goals -->
+      <section>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-txt-primary">Savings Goals</h2>
+          <a href="savings.html" class="text-[11px] text-accent hover:underline">See all</a>
+        </div>
+        <div id="goals-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </section>
+
+      <!-- Accounts -->
+      <section>
+        <div class="flex items-center justify-between mb-3">
+          <h2 class="text-sm font-semibold text-txt-primary">Accounts</h2>
+          <a href="accounts.html" class="text-[11px] text-accent hover:underline">See all</a>
+        </div>
+        <div id="accounts-grid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Mobile FAB -->
+  <a href="transactions.html?action=add&type=expense" class="fab lg:hidden" aria-label="Add transaction">
+    <i data-lucide="plus" class="w-6 h-6"></i>
+  </a>
+
+  <nav id="mobile-nav" class="bottom-nav lg:hidden"></nav>
+
+  <!-- Profile Edit Modal -->
+  <div id="profile-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div data-modal-backdrop class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+
+    <div class="relative w-full max-w-sm card p-6">
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-sm font-semibold text-txt-primary">Edit Profile</h2>
+        <button data-close-modal
+                class="w-8 h-8 rounded-lg bg-bg-secondary border border-brd flex items-center justify-center text-txt-secondary hover:text-txt-primary transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="profile-form" class="space-y-4">
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1.5">Full Name</label>
+          <input id="profile-name-input" type="text" required minlength="1" maxlength="80"
+                 autocomplete="name"
+                 class="w-full h-11 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+        </div>
+
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1.5">Email</label>
+          <div id="profile-email-display"
+               class="w-full h-11 px-3 rounded-lg bg-bg-secondary/50 border border-brd text-sm text-txt-secondary flex items-center cursor-not-allowed"></div>
+        </div>
+
+        <button type="submit"
+                class="w-full h-11 rounded-xl bg-accent hover:bg-accent-hover text-[#06221a] font-semibold text-sm transition">
+          Save Changes
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/dashboard.js"></script>
+  <script type="module" src="assets/js/profile.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      /* Bind avatar → open profile modal */
+      document.querySelectorAll('[data-open-profile]').forEach(el => {
+        el.addEventListener('click', () => window.Profile?.openEditModal());
+      });
+      /* Bind data-phase-toast buttons */
+      document.querySelectorAll('[data-phase-toast]').forEach(el => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          MF.ui.toast(`"${el.dataset.phaseToast}"`, 'info');
+        });
+      });
+      /* Mirror greeting to mobile view */
+      const g  = document.getElementById('greeting')?.textContent;
+      const gm = document.getElementById('greeting-mobile');
+      if (g && gm && g !== 'Loading…') gm.textContent = g;
+    });
+
+    const observer = new MutationObserver(() => {
+      const g  = document.getElementById('greeting')?.textContent;
+      const gm = document.getElementById('greeting-mobile');
+      if (g && gm && g !== gm.textContent && g !== 'Loading…') {
+        gm.textContent = g;
+      }
+    });
+    document.addEventListener('DOMContentLoaded', () => {
+      const g = document.getElementById('greeting');
+      if (g) observer.observe(g, { childList: true, characterData: true, subtree: true });
+    });
+  </script>
+</body>
+</html>

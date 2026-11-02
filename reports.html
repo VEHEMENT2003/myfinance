@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MyFinance — Reports</title>
+  <!-- Tailwind Compiled CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <!-- Export Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.1/jspdf.plugin.autotable.min.js"></script>
+</head>
+<body>
+  <aside id="sidebar" class="sidebar hidden-mobile lg:!transform-none"></aside>
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+  <main class="lg:pl-[260px] min-h-screen pb-28 lg:pb-8">
+    <header class="sticky top-0 z-20 bg-bg-primary/85 backdrop-blur border-b border-brd">
+      <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+        <div class="flex items-center gap-3 lg:hidden">
+          <button data-open-sidebar class="w-9 h-9 rounded-lg bg-bg-card border border-brd flex items-center justify-center">
+            <i data-lucide="menu" class="w-4 h-4 text-txt-primary"></i>
+          </button>
+          <span class="font-bold text-txt-primary">Reports</span>
+        </div>
+        <div class="hidden lg:block">
+          <h1 class="text-xl font-bold text-txt-primary">Financial Reports</h1>
+          <div class="text-xs text-txt-secondary">Generate and export your data</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button data-signout class="w-9 h-9 rounded-full bg-accent-2 flex items-center justify-center text-txt-primary text-xs font-bold">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="px-4 sm:px-6 lg:px-8 py-6 max-w-[1000px] mx-auto space-y-6">
+      
+      <!-- Config Panel -->
+      <div class="card p-5">
+        <h2 class="text-sm font-semibold text-txt-primary mb-4">Report Configuration</h2>
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 items-end">
+          <div class="md:col-span-2">
+            <label class="block text-xs text-txt-secondary mb-1">Date Range</label>
+            <div class="flex gap-2">
+              <input id="r-start" type="date" class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+              <input id="r-end" type="date" class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs text-txt-secondary mb-1">Account</label>
+            <select id="r-account" class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent">
+              <option value="">All Accounts</option>
+            </select>
+          </div>
+          <button id="btn-generate" class="w-full h-10 rounded-xl bg-accent hover:bg-accent-hover text-[#06221a] font-semibold text-sm transition">
+            Generate Report
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="grid grid-cols-3 gap-4">
+        <div class="card p-4 text-center">
+          <div class="text-[11px] text-txt-secondary uppercase tracking-wider mb-1">Total Income</div>
+          <div id="sum-income" class="text-xl font-bold text-income">₹0</div>
+        </div>
+        <div class="card p-4 text-center">
+          <div class="text-[11px] text-txt-secondary uppercase tracking-wider mb-1">Total Expenses</div>
+          <div id="sum-expense" class="text-xl font-bold text-expense">₹0</div>
+        </div>
+        <div class="card p-4 text-center">
+          <div class="text-[11px] text-txt-secondary uppercase tracking-wider mb-1">Net Flow</div>
+          <div id="sum-net" class="text-xl font-bold text-txt-primary">₹0</div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="text-sm text-txt-secondary">
+          Showing <span id="tx-count" class="text-txt-primary font-medium">0</span> transactions
+        </div>
+        <div class="flex gap-2">
+          <button id="btn-export-csv" class="h-9 px-4 rounded-lg bg-bg-elevated border border-brd text-xs font-medium text-txt-primary hover:border-accent transition flex items-center gap-1.5">
+            <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-[#00D6A0]"></i> CSV
+          </button>
+          <button id="btn-export-excel" class="h-9 px-4 rounded-lg bg-bg-elevated border border-brd text-xs font-medium text-txt-primary hover:border-accent transition flex items-center gap-1.5">
+            <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5 text-[#00D6A0]"></i> Excel
+          </button>
+          <button id="btn-export-pdf" class="h-9 px-4 rounded-lg bg-bg-elevated border border-brd text-xs font-medium text-txt-primary hover:border-accent transition flex items-center gap-1.5">
+            <i data-lucide="file-text" class="w-3.5 h-3.5 text-expense"></i> PDF
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Table -->
+      <div class="card p-0 overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm text-txt-secondary">
+            <thead class="bg-bg-secondary/50 text-[11px] uppercase tracking-wider">
+              <tr>
+                <th class="px-4 py-3 font-medium">Date</th>
+                <th class="px-4 py-3 font-medium">Title</th>
+                <th class="px-4 py-3 font-medium">Category</th>
+                <th class="px-4 py-3 font-medium">Account</th>
+                <th class="px-4 py-3 font-medium text-right">Amount</th>
+              </tr>
+            </thead>
+            <tbody id="preview-body" class="divide-y divide-brd/50">
+              <tr>
+                <td colspan="5" class="px-4 py-8 text-center text-xs">No data. Click "Generate Report".</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <nav id="mobile-nav" class="bottom-nav lg:hidden"></nav>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/reports.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

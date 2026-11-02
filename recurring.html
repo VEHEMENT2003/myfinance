@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MyFinance — Recurring</title>
+  <!-- Tailwind Compiled CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <aside id="sidebar" class="sidebar hidden-mobile lg:!transform-none"></aside>
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+  <main class="lg:pl-[260px] min-h-screen pb-28 lg:pb-8">
+    <header class="sticky top-0 z-20 bg-bg-primary/85 backdrop-blur border-b border-brd">
+      <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+        <div class="flex items-center gap-3 lg:hidden">
+          <button data-open-sidebar class="w-9 h-9 rounded-lg bg-bg-card border border-brd flex items-center justify-center">
+            <i data-lucide="menu" class="w-4 h-4 text-txt-primary"></i>
+          </button>
+          <span class="font-bold text-txt-primary">Recurring</span>
+        </div>
+        <div class="hidden lg:block">
+          <h1 class="text-xl font-bold text-txt-primary">Recurring Transactions</h1>
+          <div class="text-xs text-txt-secondary">Automate your regular bills and income</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-add-rule" class="h-9 px-3 rounded-lg bg-accent hover:bg-accent-hover text-[#06221a] text-xs font-semibold flex items-center gap-1.5 transition">
+            <i data-lucide="plus" class="w-4 h-4"></i><span class="hidden sm:inline">New Rule</span>
+          </button>
+          <button data-signout class="w-9 h-9 rounded-full bg-accent-2 flex items-center justify-center text-txt-primary text-xs font-bold">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="px-4 sm:px-6 lg:px-8 py-6 max-w-[1000px] mx-auto">
+      <div id="rules-list" class="space-y-3"></div>
+    </div>
+  </main>
+
+  <button id="fab-add-rule" class="fab lg:hidden" aria-label="Add rule"><i data-lucide="plus" class="w-6 h-6"></i></button>
+  <nav id="mobile-nav" class="bottom-nav lg:hidden"></nav>
+
+  <!-- Modal -->
+  <div id="rule-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div data-modal-backdrop class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-sm card p-5">
+      <div class="flex items-center justify-between mb-4">
+        <h2 id="rule-modal-title" class="text-base font-semibold text-txt-primary">New Recurring Rule</h2>
+        <button data-close-modal class="w-8 h-8 rounded-lg bg-bg-secondary border border-brd flex items-center justify-center text-txt-secondary hover:text-txt-primary transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="rule-form" class="space-y-3">
+        <div class="grid grid-cols-2 gap-1 p-1 rounded-xl bg-bg-secondary border border-brd mb-2">
+          <button type="button" data-type="expense" class="rule-type-btn h-9 rounded-lg text-xs font-semibold transition">Expense</button>
+          <button type="button" data-type="income"  class="rule-type-btn h-9 rounded-lg text-xs font-semibold transition">Income</button>
+        </div>
+        
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1">Title</label>
+          <input id="r-title" type="text" required placeholder="e.g. Netflix" class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+        </div>
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1">Amount</label>
+          <input id="r-amount" type="number" step="1" required min="1" class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+        </div>
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1">Category</label>
+          <select id="r-category" required class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent"></select>
+        </div>
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1">Account</label>
+          <select id="r-account" required class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent"></select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-txt-secondary mb-1">Frequency</label>
+            <select id="r-frequency" class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent">
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs text-txt-secondary mb-1">Start Date</label>
+            <input id="r-start" type="date" required class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+          </div>
+        </div>
+        <button type="submit" class="w-full h-10 mt-2 rounded-xl bg-accent hover:bg-accent-hover text-[#06221a] font-semibold text-sm transition">Save Rule</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/recurring.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>

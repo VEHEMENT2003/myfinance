@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MyFinance — Signing you in…</title>
+  <!-- Tailwind Compiled CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+</head>
+<body class="min-h-screen flex items-center justify-center bg-bg-primary">
+  <div class="text-center">
+    <div class="w-14 h-14 mx-auto rounded-2xl bg-accent flex items-center justify-center shadow-glow mb-4">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7 text-[#06221a]" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4-1.79-4-4-4z" />
+      </svg>
+    </div>
+    <p id="status" class="text-sm text-txt-secondary">Signing you in…</p>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script type="module">
+    import './assets/js/supabase.js';
+
+    const status = document.getElementById('status');
+
+    /* The SDK consumes the URL fragment before this runs.
+       onAuthStateChange fires SIGNED_IN for magic-link AND OAuth. */
+    supabase.auth.onAuthStateChange((event, session) => {
+      if (event === 'SIGNED_IN' && session) {
+        status.textContent = 'Signed in! Redirecting…';
+        setTimeout(() => location.replace('dashboard.html'), 400);
+      }
+    });
+
+    /* Fallback: if the session was already consumed before the listener attached,
+       or the user navigated here with a valid session. */
+    setTimeout(async () => {
+      const { data } = await supabase.auth.getSession();
+      if (data.session) {
+        location.replace('dashboard.html');
+      } else {
+        status.textContent = 'Link expired or invalid. Please try again.';
+        setTimeout(() => location.replace('login.html'), 2500);
+      }
+    }, 1500);
+  </script>
+</body>
+</html>

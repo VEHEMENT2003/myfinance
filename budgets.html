@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>MyFinance — Budgets</title>
+  <!-- Tailwind Compiled CSS -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+  <aside id="sidebar" class="sidebar hidden-mobile lg:!transform-none"></aside>
+  <div id="sidebar-backdrop" class="fixed inset-0 bg-black/50 z-30 hidden lg:hidden"></div>
+
+  <main class="lg:pl-[260px] min-h-screen pb-28 lg:pb-8">
+    <header class="sticky top-0 z-20 bg-bg-primary/85 backdrop-blur border-b border-brd">
+      <div class="flex items-center justify-between px-4 sm:px-6 lg:px-8 h-16">
+        <div class="flex items-center gap-3 lg:hidden">
+          <button data-open-sidebar class="w-9 h-9 rounded-lg bg-bg-card border border-brd flex items-center justify-center">
+            <i data-lucide="menu" class="w-4 h-4 text-txt-primary"></i>
+          </button>
+          <span class="font-bold text-txt-primary">Budgets</span>
+        </div>
+        <div class="hidden lg:block">
+          <h1 class="text-xl font-bold text-txt-primary">Monthly Budgets</h1>
+          <div class="text-xs text-txt-secondary">Control your spending limits</div>
+        </div>
+        <div class="flex items-center gap-2">
+          <button id="btn-add-budget" class="h-9 px-3 rounded-lg bg-accent hover:bg-accent-hover text-[#06221a] text-xs font-semibold flex items-center gap-1.5 transition">
+            <i data-lucide="plus" class="w-4 h-4"></i><span class="hidden sm:inline">New Budget</span>
+          </button>
+          <button data-signout class="w-9 h-9 rounded-full bg-accent-2 flex items-center justify-center text-txt-primary text-xs font-bold">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div class="px-4 sm:px-6 lg:px-8 py-6 max-w-[1000px] mx-auto">
+      <div id="budget-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+  </main>
+
+  <button id="fab-add-budget" class="fab lg:hidden" aria-label="Add budget"><i data-lucide="plus" class="w-6 h-6"></i></button>
+  <nav id="mobile-nav" class="bottom-nav lg:hidden"></nav>
+
+  <!-- Modal -->
+  <div id="budget-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center px-4">
+    <div data-modal-backdrop class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+    <div class="relative w-full max-w-sm card p-5">
+      <div class="flex items-center justify-between mb-4">
+        <h2 id="budget-modal-title" class="text-base font-semibold text-txt-primary">New Budget</h2>
+        <button data-close-modal class="w-8 h-8 rounded-lg bg-bg-secondary border border-brd flex items-center justify-center text-txt-secondary hover:text-txt-primary transition">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <form id="budget-form" class="space-y-3">
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1">Category</label>
+          <select id="b-category" required class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent"></select>
+        </div>
+        <div>
+          <label class="block text-xs text-txt-secondary mb-1">Budget Amount</label>
+          <input id="b-amount" type="number" step="1" min="1" required class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" placeholder="e.g. 10000" />
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs text-txt-secondary mb-1">Start Date</label>
+            <input id="b-start" type="date" required class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+          </div>
+          <div>
+            <label class="block text-xs text-txt-secondary mb-1">End Date</label>
+            <input id="b-end" type="date" required class="w-full h-10 px-3 rounded-lg bg-bg-secondary border border-brd text-sm text-txt-primary focus:outline-none focus:border-accent" />
+          </div>
+        </div>
+        <button type="submit" class="w-full h-10 mt-2 rounded-xl bg-accent hover:bg-accent-hover text-[#06221a] font-semibold text-sm transition">Save Budget</button>
+      </form>
+    </div>
+  </div>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/ui.js"></script>
+  <script type="module" src="assets/js/app.js"></script>
+  <script type="module" src="assets/js/budgets.js"></script>
+  <script>lucide.createIcons();</script>
+</body>
+</html>
