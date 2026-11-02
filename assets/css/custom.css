@@ -1,0 +1,181 @@
+/* ── MyFinance – Design System ───────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg-primary:   #080F1C;
+  --bg-secondary: #0D1726;
+  --bg-card:      #111D2E;
+  --bg-elevated:  #17263A;
+  --accent:       #00D6A0;
+  --accent-hover: #00B98A;
+  --income:       #00C98D;
+  --expense:      #FF555F;
+  --info:         #369CFF;
+  --accent-2:     #8058F5;
+  --text-primary: #F4F7FB;
+  --text-secondary:#91A0B5;
+  --border:       #24364D;
+  --radius-card:  14px;
+  --radius-xl:    20px;
+  --transition:   all .2s ease;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0; padding: 0;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbars */
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: #334a68; }
+
+/* Sidebar & navigation */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 260px;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border);
+  padding: 22px 14px;
+  display: flex; flex-direction: column; gap: 4px;
+  overflow-y: auto;
+  z-index: 40;
+  transition: transform .25s ease;
+}
+.sidebar.hidden-mobile { transform: translateX(-100%); }
+.nav-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px; border-radius: 12px;
+  color: var(--text-secondary);
+  font-size: 14px; font-weight: 500;
+  transition: var(--transition);
+  text-decoration: none;
+  cursor: pointer;
+}
+.nav-item:hover { background: rgba(255,255,255,0.03); color: var(--text-primary); }
+.nav-item.active {
+  background: rgba(0, 214, 160, 0.12);
+  color: var(--accent);
+  font-weight: 600;
+}
+.nav-item.active svg { color: var(--accent); }
+.nav-item svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+/* Cards */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  padding: 18px;
+  transition: var(--transition);
+}
+.card:hover { border-color: #2f4766; }
+
+/* Balance card – subtle teal gradient overlay */
+.balance-card {
+  background:
+    radial-gradient(120% 140% at 100% 0%, rgba(0,214,160,0.16) 0%, rgba(0,214,160,0) 55%),
+    linear-gradient(135deg, #0a2c28 0%, #111D2E 60%);
+  border: 1px solid rgba(0,214,160,0.18);
+}
+
+/* Quick action tile */
+.quick-tile {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 16px 8px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-card);
+  font-size: 12px; font-weight: 500;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--transition);
+}
+.quick-tile:hover {
+  transform: translateY(-2px);
+  border-color: #2f4766;
+  color: var(--text-primary);
+}
+.quick-tile .icon-box {
+  width: 42px; height: 42px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* Floating Action Button (mobile) */
+.fab {
+  position: fixed; bottom: 82px; right: 18px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent) 0%, #00b98a 100%);
+  color: #06221a;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 8px 24px rgba(0,214,160,0.4);
+  z-index: 35;
+  border: none; cursor: pointer;
+  transition: var(--transition);
+}
+.fab:hover { transform: scale(1.05); }
+
+/* Bottom navigation (mobile) */
+.bottom-nav {
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--bg-secondary);
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-around;
+  padding: 10px 0 calc(10px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+}
+.bottom-nav a {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: 10px; font-weight: 500;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: var(--transition);
+}
+.bottom-nav a.active { color: var(--accent); }
+.bottom-nav a svg { width: 20px; height: 20px; }
+
+/* Toast */
+.toast-wrap {
+  position: fixed; top: 20px; right: 20px;
+  z-index: 60; display: flex; flex-direction: column; gap: 8px;
+  pointer-events: none;
+}
+.toast {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--info);
+  color: var(--text-primary);
+  padding: 12px 16px; border-radius: 10px;
+  font-size: 13px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  opacity: 0; transform: translateY(-8px);
+  transition: var(--transition);
+  pointer-events: auto;
+  max-width: 320px;
+}
+.toast.show { opacity: 1; transform: translateY(0); }
+.toast.success { border-left-color: var(--income); }
+.toast.error   { border-left-color: var(--expense); }
+
+/* Skeleton shimmer */
+@keyframes shimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, #17263A 0%, #1e3049 50%, #17263A 100%);
+  background-size: 800px 100%;
+  animation: shimmer 1.4s infinite linear;
+  border-radius: 8px;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }

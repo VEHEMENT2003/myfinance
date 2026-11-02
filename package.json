@@ -4,8 +4,8 @@
   "private": true,
   "description": "MyFinance — Personal Expense Tracker",
   "scripts": {
-    "build": "tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --minify",
-    "dev": "tailwindcss -i ./assets/css/input.css -o ./assets/css/style.css --watch",
+    "build": "tailwindcss -i ./assets/css/input.css -o ./assets/css/tailwind.css --minify",
+    "dev": "tailwindcss -i ./assets/css/input.css -o ./assets/css/tailwind.css --watch",
     "serve": "npx serve . -l 3000"
   },
   "devDependencies": {
